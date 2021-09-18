@@ -1,5 +1,6 @@
 package com.example.flixster.adapters;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Configuration;
@@ -12,13 +13,16 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.core.app.ActivityOptionsCompat;
+import androidx.core.util.Pair;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.example.flixster.DetailActivity;
 import com.example.flixster.R;
 import com.example.flixster.models.Movie;
 
-
+import org.parceler.Parcels;
 
 import java.util.List;
 
@@ -41,7 +45,7 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.ViewHolder>{
         return new ViewHolder(movieView);
     }
 
-    //populating data into the item thorugh holder
+    //populating data into the item through holder
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         Log.d("MovieAdapter", "onBindViewHolder" + position);
@@ -58,7 +62,7 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.ViewHolder>{
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder{
-
+        RelativeLayout container;
         TextView tvTitle;
         TextView tvOverview;
         ImageView ivPoster;
@@ -68,25 +72,34 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.ViewHolder>{
             tvTitle = itemView.findViewById(R.id.tvTitle);
             tvOverview = itemView.findViewById(R.id.tvOverview);
             ivPoster = itemView.findViewById(R.id.ivPoster);
+            container = itemView.findViewById(R.id.container);
         }
 
         public void bind(Movie movie) {
             tvTitle.setText(movie.getTitle());
-            tvOverview.setText(movie.getOverView());
+            tvOverview.setText(movie.getOverview());
             String imageURL;
-            //if phone = landscape
             if (context.getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE){
-                // then imageURL = backdrop image
                 imageURL = movie.getBackDropPath();
             }else{
                 //else image url = poster image
-                imageURL = movie.getPosterPath();                                       //try adding the video on the backdrop image
+                imageURL = movie.getPosterPath();
             }
             Glide.with(context).load(imageURL).into(ivPoster);
 
-
-
-
+            //1. Register click listener on the whole row
+            container.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    //2. Navigate to a new activity on top
+                    Intent i = new Intent(context, DetailActivity.class);
+                    i.putExtra("movie", Parcels.wrap(movie));
+                    Pair<View, String> title = Pair.create((View)tvTitle, "title_transition");
+                    Pair<View, String> overview = Pair.create((View)tvOverview,"overview_transition");
+                    ActivityOptionsCompat options = ActivityOptionsCompat.makeSceneTransitionAnimation((Activity) context, title, overview);
+                    context.startActivity(i, options.toBundle());
+                }
+            });
         }
     }
 }

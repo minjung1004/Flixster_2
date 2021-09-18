@@ -2,8 +2,14 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/container"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:background="#D8050404"
+    android:paddingTop="10dp"
+    android:paddingBottom="10dp"
+    android:visibility="visible"
+    android:radius= "30dp">
 
     <ImageView
         android:id="@+id/ivPoster"
@@ -13,7 +19,8 @@
         android:layout_alignParentTop="true"
         android:layout_marginStart="0dp"
         android:layout_marginTop="0dp"
-        tools:srcCompat="@tools:sample/avatars" />
+        tools:srcCompat="@tools:sample/avatars"
+        />
 
     <TextView
         android:id="@+id/tvTitle"
@@ -24,8 +31,10 @@
         android:layout_centerHorizontal="false"
         android:layout_marginStart="5dp"
         android:layout_toEndOf="@id/ivPoster"
+        android:textColor="#DFFFFFFF"
         android:textSize="24sp"
-        tools:text="Don't Breathe 2" />
+        tools:text="Don't Breathe 2"
+        android:transitionName="title_transition"/>
 
     <TextView
         android:id="@+id/tvOverview"
@@ -33,9 +42,13 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/tvTitle"
         android:layout_alignParentEnd="true"
+        android:layout_centerVertical="true"
         android:layout_marginStart="5dp"
         android:layout_marginTop="5dp"
         android:layout_marginEnd="5dp"
+        android:layout_marginBottom="5dp"
         android:layout_toEndOf="@+id/ivPoster"
-        tools:text="The Blind Man has been hiding out for several years in an isolated cabin and has taken in and raised a young girl orphaned from a devastating house fire. Their quiet life together is shattered when a group of criminals kidnap the girl, forcing the Blind Man to leave his safe haven to save her." />
+        android:textColor="#DFFFFFFF"
+        tools:text="The Blind Man has been hiding out for several years in an isolated cabin and has taken in and raised a young girl orphaned from a devastating house fire. Their quiet life together is shattered when a group of criminals kidnap the girl, forcing the Blind Man to leave his safe haven to save her."
+        android:transitionName="overview_transition"/>
 </RelativeLayout>
